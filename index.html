@@ -1,13 +1,873 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Akshay Kumar Gunta — React Native Developer</title>
-    <meta name="description" content="Portfolio of Akshay Kumar Gunta, React Native Developer." />
-  </head>
-  <body class="bg-slate-950 text-slate-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Akshay Kumar — React Native Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0B0C10;
+      --ink-soft:  #3D3F4E;
+      --ink-muted: #818496;
+      --surface:   #F5F6FA;
+      --white:     #FFFFFF;
+      --accent:    #4F46E5;
+      --accent-lt: #EEF2FF;
+      --accent-glow: rgba(79,70,229,0.13);
+      --green:     #10B981;
+      --border:    #E2E4EE;
+      --r:         14px;
+      --display:   'Syne', sans-serif;
+      --body:      'Inter', system-ui, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 6vw;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--display);
+      font-weight: 800; font-size: 1rem;
+      color: var(--ink); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #fff !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px; font-size: 0.82rem !important;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      padding: 9rem 6vw 5rem;
+      position: relative;
+      display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 90% 35%, var(--accent-glow), transparent 65%),
+        radial-gradient(ellipse 45% 45% at 5% 85%, rgba(16,185,129,0.07), transparent 65%);
+    }
+    /* Decorative floating code snippets */
+    .hero-deco {
+      position: absolute; right: 5vw; top: 20%; z-index: 0;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      opacity: 0.07; pointer-events: none;
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--accent); line-height: 1.7;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+      color: var(--green); background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      padding: 0.32rem 0.85rem; border-radius: 999px;
+      margin-bottom: 1.6rem;
+    }
+    .status-badge::before {
+      content: '';
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+      line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: 1.5rem; color: var(--ink);
+    }
+    h1 .accent { color: var(--accent); }
+    h1 .italic { font-style: italic; font-weight: 600; }
+
+    .hero-sub {
+      font-size: 1.1rem; color: var(--ink-soft);
+      max-width: 580px; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 0.8rem 2rem; border-radius: 999px;
+      font-weight: 600; font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(79,70,229,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,0.35); }
+    .btn-outline {
+      border: 1.5px solid var(--border); color: var(--ink);
+      padding: 0.8rem 2rem; border-radius: 999px;
+      font-weight: 500; font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .stat { }
+    .stat-num {
+      font-family: var(--display); font-weight: 800;
+      font-size: 2.4rem; line-height: 1; color: var(--ink);
+    }
+    .stat-num .unit { font-size: 1.4rem; color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--ink-muted); margin-top: 0.3rem; letter-spacing: 0.03em; }
+
+    /* ── ABOUT ── */
+    #about { padding: 6rem 6vw; background: var(--surface); }
+    .section-eyebrow {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      letter-spacing: -0.025em; line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .section-sub { color: var(--ink-soft); font-size: 1rem; margin-bottom: 3rem; max-width: 560px; line-height: 1.8; }
+
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; max-width: 1100px; }
+    .about-bio p { color: var(--ink-soft); line-height: 1.85; margin-bottom: 1.1rem; }
+    .about-bio p:last-of-type { margin-bottom: 0; }
+
+    .tech-grid {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.75rem;
+    }
+    .tech-pill {
+      font-family: var(--mono); font-size: 0.74rem;
+      background: var(--white); color: var(--ink-soft);
+      border: 1px solid var(--border);
+      padding: 0.28rem 0.7rem; border-radius: 6px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .tech-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
+
+    .skills-panel {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.75rem;
+    }
+    .skills-panel h3 {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1rem; margin-bottom: 1.5rem; color: var(--ink);
+    }
+    .skill-cat { margin-bottom: 1.6rem; }
+    .skill-cat:last-child { margin-bottom: 0; }
+    .skill-cat-title {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-muted); margin-bottom: 0.8rem;
+    }
+    .skill-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.55rem; }
+    .skill-name { font-size: 0.83rem; color: var(--ink); min-width: 120px; }
+    .bar-track { flex: 1; height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; background: var(--accent); border-radius: 99px;
+      width: 0; transition: width 1.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .bar-fill.green { background: var(--green); }
+
+    /* ── EXPERIENCE ── */
+    #experience { padding: 6rem 6vw; background: var(--white); }
+    .timeline { position: relative; max-width: 820px; }
+    .tl-line {
+      position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-entry { padding-left: 2.2rem; padding-bottom: 3rem; position: relative; }
+    .tl-entry:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: -4.5px; top: 5px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--white);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .tl-dot.current { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+    .tl-meta {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 0.3rem;
+    }
+    .tl-period { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-muted); }
+    .tl-badge {
+      font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+      background: rgba(16,185,129,0.1); color: var(--green);
+      border: 1px solid rgba(16,185,129,0.25);
+      padding: 0.12rem 0.5rem; border-radius: 999px;
+    }
+    .tl-role { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+    .tl-company { font-size: 0.9rem; color: var(--accent); font-weight: 500; margin-bottom: 0.8rem; }
+    .tl-desc { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.8; }
+    .tl-apps { margin-top: 0.9rem; }
+    .tl-apps-label { font-size: 0.72rem; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .tl-app-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .app-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: var(--mono); font-size: 0.7rem;
+      background: var(--accent-lt); color: var(--accent);
+      border: 1px solid rgba(79,70,229,0.2);
+      padding: 0.25rem 0.6rem; border-radius: 6px;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .app-link:hover { background: rgba(79,70,229,0.15); }
+    .tl-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+    .chip {
+      font-family: var(--mono); font-size: 0.68rem;
+      background: var(--surface); color: var(--ink-muted);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.55rem; border-radius: 4px;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { padding: 6rem 6vw; background: var(--surface); }
+    .apps-counter {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--mono); font-size: 0.8rem;
+      color: var(--ink-muted); margin-bottom: 2.5rem;
+    }
+    .apps-counter strong { font-size: 1.8rem; font-family: var(--display); font-weight: 800; color: var(--accent); line-height: 1; }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.25rem;
+    }
+    .proj-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.6rem;
+      transition: transform 0.22s, box-shadow 0.22s;
+      position: relative;
+    }
+    .proj-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.07); }
+    .proj-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.9rem; }
+    .proj-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--accent-lt); display: flex; align-items: center;
+      justify-content: center; font-size: 1.25rem;
+    }
+    .proj-store-badges { display: flex; flex-direction: column; gap: 0.3rem; }
+    .store-badge {
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+      padding: 0.18rem 0.5rem; border-radius: 4px;
+    }
+    .store-badge.play { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+    .store-badge.ios  { background: rgba(79,70,229,0.1); color: var(--accent); border: 1px solid rgba(79,70,229,0.2); }
+    .proj-title { font-family: var(--display); font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
+    .proj-company { font-size: 0.75rem; color: var(--ink-muted); font-family: var(--mono); margin-bottom: 0.6rem; }
+    .proj-desc { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 1rem; }
+    .proj-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--accent); text-decoration: none; margin-top: 0.75rem;
+      transition: gap 0.2s;
+    }
+    .proj-link:hover { gap: 0.55rem; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 6rem 6vw; background: var(--ink); color: #fff; }
+    #contact .section-eyebrow { color: rgba(255,255,255,0.4); }
+    #contact h2 { color: #fff; }
+    #contact .section-sub { color: rgba(255,255,255,0.55); max-width: 500px; }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 960px; }
+
+    .contact-info { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .c-link {
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none; color: rgba(255,255,255,0.65); font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .c-link:hover { color: #fff; }
+    .c-icon {
+      width: 40px; height: 40px; border-radius: 9px;
+      background: rgba(255,255,255,0.07); display: flex;
+      align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+    }
+    .c-form { display: flex; flex-direction: column; gap: 1rem; }
+    .f-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .f-group label { font-size: 0.78rem; color: rgba(255,255,255,0.45); font-weight: 500; }
+    .f-group input, .f-group textarea {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 9px; padding: 0.75rem 1rem;
+      color: #fff; font-family: var(--body); font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s; resize: none;
+    }
+    .f-group input:focus, .f-group textarea:focus { border-color: var(--accent); }
+    .f-group input::placeholder, .f-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .btn-send {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 999px; padding: 0.8rem 2rem;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s; align-self: flex-start;
+    }
+    .btn-send:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1.4rem 6vw;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .foot-copy { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+    .foot-back {
+      font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.35);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .foot-back:hover { color: #fff; }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.vis { opacity: 1; transform: none; }
+    .reveal-delay { transition-delay: 0.12s; }
+    .reveal-delay2 { transition-delay: 0.22s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 740px) {
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-stats { gap: 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      nav { padding: 0.8rem 5vw; }
+      .nav-links { gap: 1.2rem; }
+      .hero-deco { display: none; }
+      section, #contact, #about, #experience, #projects { padding: 4rem 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Akshay<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Apps</a></li>
+    <li><a href="#contact" class="nav-cta">Hire me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-deco" aria-hidden="true">
+    <div>import React from 'react';</div>
+    <div>import { StyleSheet, View } from 'react-native';</div>
+    <div>&nbsp;</div>
+    <div>const App = () => {</div>
+    <div>&nbsp; return &lt;View style={styles.container} /&gt;;</div>
+    <div>};</div>
+    <div>&nbsp;</div>
+    <div>export default App;</div>
+  </div>
+  <div class="hero-inner">
+    <div class="status-badge">Open to opportunities · Hyderabad, India</div>
+    <h1>
+      <span class="italic">4+ years</span> shipping<br/>
+      React Native apps<br/>
+      <span class="accent">people actually use.</span>
+    </h1>
+    <p class="hero-sub">
+      I'm Akshay Kumar — a React Native developer with 11 published apps across the Google Play Store and Apple App Store.
+      From AgriTech supply-chain traceability to AI-powered platforms, I build mobile products that are fast, reliable, and production-ready.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        See my 11 apps
+      </a>
+      <a href="#contact" class="btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get in touch
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">4<span class="unit">+</span></div>
+        <div class="stat-label">Years experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Published apps</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Platforms shipped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">500<span class="unit">+</span></div>
+        <div class="stat-label">LinkedIn connections</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-eyebrow">About me</p>
+    <h2>One codebase.<br/>Two stores. Real users.</h2>
+    <p class="section-sub">MVGR College of Engineering graduate. 4+ years deep in the React Native ecosystem, from first commit to Play Store review.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-bio reveal">
+      <p>
+        I'm a React Native Mobile Application Developer with 4+ years of experience building and deploying scalable, cross-platform mobile apps. My work spans supply-chain traceability, loyalty platforms, AI-powered tooling, and compliance software — all shipped to production on both Android and iOS.
+      </p>
+      <p>
+        I've published <strong>11 apps</strong> across the Google Play Store and Apple App Store, working with companies like White AI Space Labs, FixNix Inc., and clients in the AgriTech and lubricant distribution sectors. I own the full lifecycle — from architecture and API integration to Firebase distribution, store submission, and post-launch maintenance.
+      </p>
+      <p>
+        I care about performance, clean state management, and the details that make an app feel native — things like push notification edge cases, QR scanning accuracy, and offline-first data flows. I also write about what I learn, sharing real-world React Native insights on LinkedIn.
+      </p>
+      <div class="tech-grid">
+        <span class="tech-pill">React Native</span>
+        <span class="tech-pill">JavaScript</span>
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">Redux</span>
+        <span class="tech-pill">Context API</span>
+        <span class="tech-pill">REST APIs</span>
+        <span class="tech-pill">GraphQL</span>
+        <span class="tech-pill">Firebase</span>
+        <span class="tech-pill">FCM / APNs</span>
+        <span class="tech-pill">Android</span>
+        <span class="tech-pill">iOS</span>
+        <span class="tech-pill">Git</span>
+        <span class="tech-pill">Play Store</span>
+        <span class="tech-pill">App Store</span>
+        <span class="tech-pill">Node.js</span>
+      </div>
+    </div>
+    <div class="skills-panel reveal reveal-delay">
+      <h3>Skill depth</h3>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Mobile Core</div>
+        <div class="skill-row"><span class="skill-name">React Native</span><div class="bar-track"><div class="bar-fill" data-pct="93"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Android & iOS</span><div class="bar-track"><div class="bar-fill" data-pct="85"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Push / FCM / APNs</span><div class="bar-track"><div class="bar-fill" data-pct="88"></div></div></div>
+        <div class="skill-row"><span class="skill-name">QR / Geo / Maps</span><div class="bar-track"><div class="bar-fill" data-pct="82"></div></div></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">State & APIs</div>
+        <div class="skill-row"><span class="skill-name">JavaScript / TS</span><div class="bar-track"><div class="bar-fill" data-pct="90"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Redux / Context</span><div class="bar-track"><div class="bar-fill" data-pct="84"></div></div></div>
+        <div class="skill-row"><span class="skill-name">REST / GraphQL</span><div class="bar-track"><div class="bar-fill" data-pct="80"></div></div></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">DevOps & Deploy</div>
+        <div class="skill-row"><span class="skill-name">Firebase Distrib.</span><div class="bar-track"><div class="bar-fill green" data-pct="85"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Play Store / ASC</span><div class="bar-track"><div class="bar-fill green" data-pct="88"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Node.js</span><div class="bar-track"><div class="bar-fill" data-pct="70"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-eyebrow">Experience</p>
+    <h2>Where I've shipped.</h2>
+    <p class="section-sub">4+ years across AI platforms, compliance software, and AgriTech supply chains.</p>
+  </div>
+  <div class="timeline reveal">
+    <div class="tl-line"></div>
+
+    <!-- White AI Space Labs -->
+    <div class="tl-entry">
+      <div class="tl-dot current"></div>
+      <div class="tl-meta">
+        <span class="tl-period">2023 — Present</span>
+        <span class="tl-badge">Current</span>
+      </div>
+      <div class="tl-role">React Native Developer</div>
+      <div class="tl-company">White AI Space Labs · Hyderabad</div>
+      <div class="tl-desc">
+        Building AI-powered mobile applications, contributing to product architecture and cross-platform delivery. Designed and implemented a complete push notification system — handling FCM and APNs integration, deep-link routing on notification tap, foreground/background state transitions, and per-user notification preferences across Android and iOS. Responsible for full mobile release pipeline using Firebase Distribution and store deployments.
+      </div>
+      <div class="tl-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">AI Integration</span>
+        <span class="chip">FCM</span>
+        <span class="chip">APNs</span>
+        <span class="chip">Deep Linking</span>
+        <span class="chip">Firebase</span>
+      </div>
+    </div>
+
+    <!-- FixNix -->
+    <div class="tl-entry">
+      <div class="tl-dot"></div>
+      <div class="tl-meta">
+        <span class="tl-period">Previous role</span>
+      </div>
+      <div class="tl-role">React Native Developer</div>
+      <div class="tl-company">FixNix, Inc.</div>
+      <div class="tl-desc">
+        Developed mobile applications for the compliance and security sector. Worked within an agile team to build, test, and release React Native features, contributing to production-quality releases across Android and iOS platforms.
+      </div>
+      <div class="tl-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">Compliance Software</span>
+        <span class="chip">Agile</span>
+        <span class="chip">Android</span>
+        <span class="chip">iOS</span>
+      </div>
+    </div>
+
+    <!-- MSRVantage -->
+    <div class="tl-entry">
+      <div class="tl-dot"></div>
+      <div class="tl-meta">
+        <span class="tl-period">Previous role</span>
+      </div>
+      <div class="tl-role">React Native Developer</div>
+      <div class="tl-company">MSRVantage · AgriTech / Lubricants</div>
+      <div class="tl-desc">
+        Deployed MSRVantage Track and Trace (stakeholder) and MSRVantage Club (consumer) apps. Provided end-to-end traceability of products and packages with geo-location via QR code scanning. Built and published both apps to the Google Play Store and Apple App Store. Managed Firebase distribution for internal testing cycles and production rollouts.
+      </div>
+      <div class="tl-apps">
+        <div class="tl-apps-label">Published apps</div>
+        <div class="tl-app-links">
+          <a class="app-link" href="https://play.google.com/store/apps/details?id=com.msrvantage.trackandtrace.lubechain" target="_blank" rel="noopener">
+            ▲ MSRVantage Track & Trace
+          </a>
+          <a class="app-link" href="https://play.google.com/store/apps/details?id=com.msrvantage.vantageclub" target="_blank" rel="noopener">
+            ▲ MSRVantage Club
+          </a>
+        </div>
+      </div>
+      <div class="tl-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">QR Traceability</span>
+        <span class="chip">Geo-location</span>
+        <span class="chip">Play Store</span>
+        <span class="chip">App Store</span>
+        <span class="chip">Firebase</span>
+      </div>
+    </div>
+
+    <!-- FarmsIQ -->
+    <div class="tl-entry">
+      <div class="tl-dot"></div>
+      <div class="tl-meta">
+        <span class="tl-period">Previous role</span>
+      </div>
+      <div class="tl-role">React Native Developer</div>
+      <div class="tl-company">FarmsIQ · AgriTech</div>
+      <div class="tl-desc">
+        Deployed FarmsIQ (stakeholder app) and FarmsIQConnect (consumer app). Built end-to-end traceability of agricultural products and packages with geo-location via QR scanning — tracking the real-time consumption pattern of retailers, incentivising them directly and providing a full dashboard of scheme performance, secondary sales, and end-customer registrations. Both apps published to Google Play Store and App Store.
+      </div>
+      <div class="tl-apps">
+        <div class="tl-apps-label">Published apps</div>
+        <div class="tl-app-links">
+          <a class="app-link" href="https://play.google.com/store/apps/details?id=com.farmsiq.farmsIQ" target="_blank" rel="noopener">
+            ▲ FarmsIQ Stakeholder
+          </a>
+          <a class="app-link" href="https://play.google.com/store/apps/details?id=com.farmsiq.farmsIQconnect" target="_blank" rel="noopener">
+            ▲ FarmsIQConnect
+          </a>
+        </div>
+      </div>
+      <div class="tl-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">AgriTech</span>
+        <span class="chip">QR Scanning</span>
+        <span class="chip">Supply Chain</span>
+        <span class="chip">Loyalty Programs</span>
+        <span class="chip">Firebase</span>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="tl-entry">
+      <div class="tl-dot" style="background:var(--ink-muted);box-shadow:0 0 0 2px var(--ink-muted);"></div>
+      <div class="tl-meta">
+        <span class="tl-period">Education</span>
+      </div>
+      <div class="tl-role">B.Tech — Computer Science & Engineering</div>
+      <div class="tl-company">MVGR College of Engineering · Vizianagaram</div>
+      <div class="tl-desc">
+        Academic excellence award recipient. Strong foundation in data structures, algorithms, and software engineering. Active participant in technical clubs and hackathons — the foundation for a career in mobile development.
+      </div>
+      <div class="tl-chips">
+        <span class="chip">CSE</span>
+        <span class="chip">Academic Excellence Award</span>
+        <span class="chip">MVGR</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS / APPS -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-eyebrow">Published apps</p>
+    <h2>11 apps. 2 stores.<br/>Real production.</h2>
+    <p class="section-sub">Every app below is live — built, deployed, and maintained in React Native from first commit to store listing.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- FarmsIQ -->
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-icon">🌾</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Play Store</span>
+          <span class="store-badge ios">⬛ App Store</span>
+        </div>
+      </div>
+      <div class="proj-title">FarmsIQ</div>
+      <div class="proj-company">FarmsIQ · AgriTech</div>
+      <div class="proj-desc">
+        Stakeholder app for end-to-end agricultural supply chain traceability. QR scanning with real-time geo-location, retailer consumption dashboards, loyalty scheme management, and secondary sales tracking.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">QR</span>
+        <span class="chip">Firebase</span>
+      </div>
+      <a class="proj-link" href="https://play.google.com/store/apps/details?id=com.farmsiq.farmsIQ" target="_blank" rel="noopener">View on Play Store →</a>
+    </div>
+
+    <!-- FarmsIQConnect -->
+    <div class="proj-card reveal reveal-delay">
+      <div class="proj-header">
+        <div class="proj-icon">📱</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Play Store</span>
+          <span class="store-badge ios">⬛ App Store</span>
+        </div>
+      </div>
+      <div class="proj-title">FarmsIQConnect</div>
+      <div class="proj-company">FarmsIQ · AgriTech</div>
+      <div class="proj-desc">
+        Consumer-facing companion to FarmsIQ. Allows end users to scan QR codes and instantly view the full product traceability trail — from source farm to shelf — building transparency and trust.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">Consumer UX</span>
+        <span class="chip">QR</span>
+      </div>
+      <a class="proj-link" href="https://play.google.com/store/apps/details?id=com.farmsiq.farmsIQconnect" target="_blank" rel="noopener">View on Play Store →</a>
+    </div>
+
+    <!-- MSRVantage Track & Trace -->
+    <div class="proj-card reveal reveal-delay2">
+      <div class="proj-header">
+        <div class="proj-icon">🔍</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Play Store</span>
+          <span class="store-badge ios">⬛ App Store</span>
+        </div>
+      </div>
+      <div class="proj-title">MSRVantage Track & Trace</div>
+      <div class="proj-company">MSRVantage · Lubricants</div>
+      <div class="proj-desc">
+        Stakeholder traceability app for the lubricant distribution sector. QR-based geo-tagged package tracking across the entire supply chain from manufacturer to end retailer.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">Traceability</span>
+        <span class="chip">Geo-location</span>
+      </div>
+      <a class="proj-link" href="https://play.google.com/store/apps/details?id=com.msrvantage.trackandtrace.lubechain" target="_blank" rel="noopener">View on Play Store →</a>
+    </div>
+
+    <!-- MSRVantage Club -->
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-icon">🏆</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Play Store</span>
+          <span class="store-badge ios">⬛ App Store</span>
+        </div>
+      </div>
+      <div class="proj-title">MSRVantage Club</div>
+      <div class="proj-company">MSRVantage · Lubricants</div>
+      <div class="proj-desc">
+        Retailer loyalty and rewards platform. Tracks purchase history, incentivises retailers directly, and provides visibility into scheme performance and customer registrations.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">Loyalty</span>
+        <span class="chip">Firebase</span>
+      </div>
+      <a class="proj-link" href="https://play.google.com/store/apps/details?id=com.msrvantage.vantageclub" target="_blank" rel="noopener">View on Play Store →</a>
+    </div>
+
+    <!-- Push Notification System -->
+    <div class="proj-card reveal reveal-delay">
+      <div class="proj-header">
+        <div class="proj-icon">🔔</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Live</span>
+        </div>
+      </div>
+      <div class="proj-title">Push Notification System</div>
+      <div class="proj-company">White AI Space Labs</div>
+      <div class="proj-desc">
+        Production-grade push notification architecture: FCM + APNs integration, foreground/background state handling, deep-link routing on tap, per-user preferences, and silent push data updates. A system that covers every edge case.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">FCM</span>
+        <span class="chip">APNs</span>
+        <span class="chip">Deep Linking</span>
+      </div>
+    </div>
+
+    <!-- AI Mobile Platform -->
+    <div class="proj-card reveal reveal-delay2">
+      <div class="proj-header">
+        <div class="proj-icon">🤖</div>
+        <div class="proj-store-badges">
+          <span class="store-badge play">▲ Live</span>
+        </div>
+      </div>
+      <div class="proj-title">AI-Powered Mobile Platform</div>
+      <div class="proj-company">White AI Space Labs</div>
+      <div class="proj-desc">
+        Contributing to next-gen AI-powered mobile experiences — architecture decisions, AI inference API integration, and building UIs that make complex AI feel simple and intuitive on small screens.
+      </div>
+      <div class="proj-chips">
+        <span class="chip">React Native</span>
+        <span class="chip">AI/LLM</span>
+        <span class="chip">REST APIs</span>
+        <span class="chip">Mobile UX</span>
+      </div>
+    </div>
+
+    <!-- More apps card -->
+    <div class="proj-card reveal" style="background:var(--accent-lt); border-color:rgba(79,70,229,0.2); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2.5rem 2rem; min-height:220px;">
+      <div style="font-family:var(--display); font-weight:800; font-size:3rem; color:var(--accent); line-height:1;">+7</div>
+      <div style="font-size:0.9rem; color:var(--ink-soft); margin-top:0.5rem; line-height:1.7;">More published apps across FixNix, AgriTech, and other clients — 11 total across Play Store & App Store.</div>
+      <a href="#contact" style="margin-top:1.2rem; font-family:var(--mono); font-size:0.75rem; color:var(--accent); text-decoration:none;">Ask me about them →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-eyebrow">Contact</p>
+    <h2>Let's build something.</h2>
+    <p class="section-sub">Open to full-time roles, freelance mobile projects, and interesting collaborations. If it's a React Native problem, I want to hear it.</p>
+  </div>
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="contact-info">
+        <a href="https://www.linkedin.com/in/akki7/" class="c-link" target="_blank" rel="noopener">
+          <div class="c-icon" style="font-family:serif; font-weight:700; font-size:0.8rem;">in</div>
+          <span>linkedin.com/in/akki7</span>
+        </a>
+        <a href="https://github.com/Akki-7" class="c-link" target="_blank" rel="noopener">
+          <div class="c-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.74-1.33-1.74-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </div>
+          <span>github.com/Akki-7</span>
+        </a>
+        <a href="mailto:gakshaykumar21@gmail.com" class="c-link">
+          <div class="c-icon">✉</div>
+          <span>gakshaykumar21@gmail.com</span>
+        </a>
+        <div class="c-link" style="cursor:default;">
+          <div class="c-icon">📍</div>
+          <span>Hyderabad, India</span>
+        </div>
+      </div>
+    </div>
+    <div class="c-form reveal reveal-delay">
+      <div class="f-group">
+        <label>Your name</label>
+        <input type="text" placeholder="Jane Smith"/>
+      </div>
+      <div class="f-group">
+        <label>Email</label>
+        <input type="email" placeholder="jane@company.com"/>
+      </div>
+      <div class="f-group">
+        <label>Message</label>
+        <textarea rows="5" placeholder="Tell me about the project..."></textarea>
+      </div>
+      <button class="btn-send" id="sendBtn">Send message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="foot-copy">© 2026 Akshay Kumar. Built with React Native love.</span>
+  <a href="#hero" class="foot-back">Back to top ↑</a>
+</footer>
+
+<script>
+  // Scroll reveal + skill bars
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        e.target.querySelectorAll('.bar-fill').forEach(b => {
+          b.style.width = b.dataset.pct + '%';
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Send button feedback
+  document.getElementById('sendBtn').addEventListener('click', function() {
+    this.textContent = 'Sent! ✓';
+    this.style.background = '#10B981';
+    setTimeout(() => {
+      this.textContent = 'Send message →';
+      this.style.background = '';
+    }, 2800);
+  });
+</script>
+</body>
 </html>
